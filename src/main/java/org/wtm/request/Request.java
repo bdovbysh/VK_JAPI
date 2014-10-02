@@ -14,6 +14,10 @@ public class Request {
     private final static String API_VERSION = "5.25";
     private StringBuilder query;
 
+    /**
+     * Methods with authentication
+     * @param methodName
+     */
     public Request (String methodName,String token){
         this();
         query.append(methodName).append("?");
@@ -21,6 +25,10 @@ public class Request {
         query.append("&v=").append(API_VERSION);
     }
 
+    /**
+     * Methods without authentication
+     * @param methodName
+     */
     public Request(String methodName){
         this();
         query.append(methodName).append("?");

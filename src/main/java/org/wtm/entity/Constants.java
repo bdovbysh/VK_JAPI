@@ -38,12 +38,4 @@ public interface Constants {
             "counters,screen_name,maiden_name,timezone,occupation,activities,interests,music,movies," +
             "tv,books,games,about,quotes";
 
-    String FIELDS_NO_TOKEN = "nickname,screen_name,"
-    		+ "sex,bdate,city,country,timezone,"
-    		+ "photo_50,photo_100,photo_200_orig,"
-    		+ "has_mobile,contacts,education,online,"
-    		+ "counters,relation,last_seen,status,"
-    		+ "can_write_private_message,can_see_all_posts,"
-    		+ "can_post,universities";
-    
 }
