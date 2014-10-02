@@ -112,21 +112,4 @@ public class School {
         this.speciality = speciality;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("School{");
-        sb.append("id=").append(id);
-        sb.append(", country=").append(country);
-        sb.append(", city=").append(city);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", yearFrom=").append(yearFrom);
-        sb.append(", yearTo=").append(yearTo);
-        sb.append(", yearGraduated=").append(yearGraduated);
-        sb.append(", className='").append(className).append('\'');
-        sb.append(", speciality='").append(speciality).append('\'');
-        sb.append(", type=").append(type);
-        sb.append(", typeStr='").append(typeStr).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
 }
