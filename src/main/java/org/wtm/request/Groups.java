@@ -1,0 +1,79 @@
+package org.wtm.request;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.wtm.entity.Group;
+import org.wtm.exceptions.RequestException;
+import org.wtm.response.ResponseList;
+import org.wtm.response.ResponseWithItems;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+/**
+ * Created by dovbysh on 08.08.14.
+ */
+public class Groups {
+
+    private final static String GET_BY_ID_METHOD = "groups.getById";
+    private final static String GET_MEMBERS = "groups.getMembers";
+    private final static String GROUP_IDS = "group_ids";
+    private final static String USER_ID = "user_id";
+    private final static String GROUP_ID = "group_id";
+    private final static String GROUPS_SEARCH = "groups.search";
+    private final static String VERSION = "5.24";
+    private String token;
+    private Gson gson;
+
+    public Groups(String token){
+        this.token = token;
+        gson = new Gson();
+
+    }
+
+    public List<Group> getByID(String groupID) throws RequestException{
+      Type responseType = new TypeToken<ResponseList<Group>>() {}.getType();
+      Request request = new Request(GET_BY_ID_METHOD,token);
+      request.addParameter(GROUP_IDS,groupID);
+      request.addParameter("v",VERSION);
+      ResponseList responseList = gson.fromJson(request.makeRequest(), responseType);
+      return responseList.getResponse();
+    }
+
+    public List<Group> groupSearch(String query,Integer offset,Integer count) throws RequestException{
+        Type responseType = new TypeToken<ResponseWithItems<Group>>() {}.getType();
+        Request request = new Request(GROUPS_SEARCH,token);
+        request.addParameter("q",query);
+        request.addParameter("offset",offset);
+        request.addParameter("count",count);
+        ResponseWithItems responseList = gson.fromJson(request.makeRequest(),responseType);
+        return responseList.getResponse().getItems();
+    }
+
+    public List<Group> groupSearch(String query) throws RequestException{
+        Type responseType = new TypeToken<ResponseWithItems<Group>>() {}.getType();
+        Request request = new Request(GROUPS_SEARCH,token);
+        request.addParameter("q",query);
+        ResponseWithItems responseList = gson.fromJson(request.makeRequest(),responseType);
+        return responseList.getResponse().getItems();
+    }
+
+
+    public List<Integer> getMembers(Integer group_id) throws RequestException{
+       Type responseType = new TypeToken<ResponseWithItems<Integer>>(){}.getType();
+       Request request = new Request(GET_MEMBERS,token);
+       request.addParameter(GROUP_ID,group_id);
+       ResponseWithItems responseList = gson.fromJson(request.makeRequest(),responseType);
+       return responseList.getResponse().getItems();
+    }
+
+    public List<Integer> getMembers(Integer group_id,Integer offset,Integer count) throws RequestException{
+        Type responseType = new TypeToken<ResponseWithItems<Integer>>(){}.getType();
+        Request request = new Request(GET_MEMBERS,token);
+        request.addParameter(GROUP_ID,group_id);
+        request.addParameter("offset",offset);
+        request.addParameter("count",count);
+        ResponseWithItems responseList = gson.fromJson(request.makeRequest(),responseType);
+        return responseList.getResponse().getItems();
+    }
+}
