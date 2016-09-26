@@ -2,6 +2,8 @@ package org.wtm.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.wtm.entity.User;
 import org.wtm.exceptions.RequestException;
 import org.wtm.response.ResponseList;
@@ -22,14 +24,12 @@ public class Users{
     private final static String USER_IDS = "user_ids";
     private final static String NAMECASE = "name_case";
 
-
-
-    private String token;
     private Gson gson;
     private Type responseType;
+    @Autowired
+    private ApplicationContext context;
 
-    public Users(String token){
-        this.token = token;
+    public Users(){
         gson = new Gson();
         responseType = new TypeToken<ResponseList<User>>(){}.getType();
     }
@@ -41,8 +41,8 @@ public class Users{
      * @return
      */
     public List<User> getUsers(String uids,NameCase nameCase) throws RequestException {
-        Request request = new Request(USERS_GET,token);
-        request.addParameter(USER_IDS,uids);
+        Request request = (Request) context.getBean("request");
+        request.setMethodName(USERS_GET).addParameter(USER_IDS,uids);
         if ( nameCase!=null){
             request.addParameter(NAMECASE,nameCase);
         }

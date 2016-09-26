@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    
-    <util:properties id="authorizationProps">
-        <prop key="token">//TODO insert your user security token</prop>
+    <!-- https://vk.com/dev/implicit_flow_user -->
+    <util:properties id="appProperties">
+        <prop key="token">//TODO insert your token</prop>
+        <prop key="apiVersion">5.30</prop>
+        <prop key="apiURI">https://api.vk.com/method/</prop>
     </util:properties>
-    
+
+    <context:annotation-config />
+    <bean id="gson" class="com.google.gson.Gson" scope="singleton"/>
+
+    <bean id="photoRequest" class="org.wtm.request.PhotoRequest" />
+
+    <bean id="request" class="org.wtm.request.Request" scope="prototype">
+        <constructor-arg name="token" value="#{appProperties.token}" />
+        <constructor-arg name="apiVersion" value="#{appProperties.apiVersion}"/>
+        <constructor-arg name="apiURI" value="#{appProperties.apiURI}"/>
+   </bean>
     
 </beans>

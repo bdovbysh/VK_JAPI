@@ -2,6 +2,8 @@ package org.wtm.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.wtm.entity.Constants;
 import org.wtm.entity.Online;
 import org.wtm.entity.User;
@@ -22,6 +24,8 @@ public   class Friends {
     private Gson gson;
     private Type responseType;
     private Type onlineResponse;
+    @Autowired
+    private ApplicationContext context;
 
 
     public Friends(String token){
@@ -38,8 +42,8 @@ public   class Friends {
      * Online friends for current user
      */
     public Online getOnline() throws RequestException {
-        Request request = new Request(GET_ONLINE,token);
-        request.addParameter("online_mobile",1);
+        Request request = (Request) context.getBean("request");
+        request.setMethodName(GET_ONLINE).addParameter("online_mobile",1);
         ResponseObject<Online> response = gson.fromJson(request.makeRequest(),onlineResponse);
         return response.getResponse();
     };
@@ -51,18 +55,15 @@ public   class Friends {
      * @param offset
      */
     public Online getOnline(String user_id,Integer count,Integer offset) throws RequestException,InputParameterException{
-        Request request = new Request(GET_ONLINE,token);
-        request.addParameter("user_id",user_id);
-        request.addParameter("online_mobile",1);
-        request.addParameter("count",count);
-        request.addParameter("offset",offset);
+        Request request = (Request) context.getBean("request");
+        request.setMethodName(GET_ONLINE).addParameter("user_id",user_id).addParameter("online_mobile",1).addParameter("count",count).addParameter("offset",offset);
         ResponseObject<Online> response = gson.fromJson(request.makeRequest(),onlineResponse);
         return response.getResponse();
     }
 
-    public  void get() {};
-    public  void getMutal() {};
-    public  void getRecent() {};
+    public  void get() {}
+    public  void getMutal() {}
+    public  void getRecent() {}
 
     /**
      *
@@ -73,10 +74,8 @@ public   class Friends {
         if ( count < 0 || count > 500 || offset < 0 || offset > 500){
             throw new InputParameterException("Count should be >= 0 & <= 500 OR offset") ;
         }
-        Request request = new Request(GET_SUGGESTIONS,token);
-
-        request.addParameter("count",count);
-        request.addParameter("offset",offset);
+        Request request = (Request) context.getBean("request");
+        request.setMethodName(GET_SUGGESTIONS).addParameter("count",count).addParameter("offset",offset);
         if ( allFields ){
           request.addParameter("fields", Constants.FIELDS_PARAM);
         }
@@ -88,7 +87,8 @@ public   class Friends {
      * Default suggestions count = 100;
      */
     public List<User> getSuggestions() throws RequestException{
-        Request request = new Request(GET_SUGGESTIONS,token);
+        Request request = (Request) context.getBean("request");
+        request.setMethodName(GET_SUGGESTIONS);
         ResponseWithItems<User> responseWithItems = gson.fromJson(request.makeRequest(),responseType);
         return responseWithItems.getResponse().getItems();
     }
@@ -96,11 +96,6 @@ public   class Friends {
     public  Boolean areFriends() {
         return false;
     }
-
-    public  void add() {
-
-    };
-
 
 
 }
