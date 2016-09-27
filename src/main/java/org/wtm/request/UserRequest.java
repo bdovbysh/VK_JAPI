@@ -17,20 +17,21 @@ import static org.wtm.entity.Constants.NameCase;
 /**
  * Created by dovbysh on 11.08.14.
  */
-public class Users{
+public class UserRequest {
 
     private final static String USERS_GET = "users.get";
     private final static String FIELDS = "fields";
     private final static String USER_IDS = "user_ids";
     private final static String NAMECASE = "name_case";
 
-    private Gson gson;
+
     private Type responseType;
     @Autowired
     private ApplicationContext context;
+    @Autowired
+    private Gson gson;
 
-    public Users(){
-        gson = new Gson();
+    public UserRequest(){
         responseType = new TypeToken<ResponseList<User>>(){}.getType();
     }
 

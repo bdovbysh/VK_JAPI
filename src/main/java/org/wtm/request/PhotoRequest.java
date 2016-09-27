@@ -24,13 +24,14 @@ public class PhotoRequest {
     private final static String GET_ALBUMS_COUNT = "photos.getAlbumsCount";
     private final static String GET_PHOTOS = "photos.get";
 
+    @Autowired
     private Gson gson;
-    private Type photoListType;
+
     @Autowired
     private ApplicationContext context;
 
+    private Type photoListType;
     public PhotoRequest(){
-        gson = new Gson();
         photoListType = new TypeToken<ResponseList<Photo>>() {}.getType();
     }
 

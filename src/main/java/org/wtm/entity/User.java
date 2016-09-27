@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class User {
 
-    private Integer id;
+    private String id;
     @SerializedName("first_name")
     private String firstName;
     @SerializedName("last_name")
@@ -72,11 +72,11 @@ public class User {
     private List<University> universities;
     private List<School> schools;
     private List<Relative> relatives;
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -18,18 +18,17 @@ import java.util.List;
 /**
  * Created by dovbysh on 01.10.14.
  */
-public   class Friends {
+public   class FriendsRequest {
 
-    private final String token;
-    private Gson gson;
     private Type responseType;
     private Type onlineResponse;
+
     @Autowired
     private ApplicationContext context;
+    @Autowired
+    private Gson gson;
 
-
-    public Friends(String token){
-        this.token = token;
+    public FriendsRequest(){
         gson = new Gson();
         responseType = new TypeToken<ResponseWithItems<User>>(){}.getType();
         onlineResponse = new TypeToken<ResponseObject<Online>>(){}.getType();
@@ -46,7 +45,7 @@ public   class Friends {
         request.setMethodName(GET_ONLINE).addParameter("online_mobile",1);
         ResponseObject<Online> response = gson.fromJson(request.makeRequest(),onlineResponse);
         return response.getResponse();
-    };
+    }
 
     /**
      *

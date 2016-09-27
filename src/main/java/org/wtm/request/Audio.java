@@ -18,6 +18,8 @@ public class Audio {
     private final static Integer defaultCount = 50;
     private final static Integer maxCount = 6000;
     private final static Integer defaultOffset = 0;
+
+    @Autowired
     private Gson gson;
     private Type responseType;
 
@@ -26,7 +28,6 @@ public class Audio {
     private ApplicationContext context;
 
     public Audio(){
-        gson = new Gson();
         responseType = new TypeToken<ResponseWithItems<org.wtm.entity.Audio>>(){}.getType();
     }
 

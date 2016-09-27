@@ -20,6 +20,7 @@ public class Request {
     private final String token;
     private String methodName;
     private StringBuilder queryParams;
+    boolean firstParameter = true;
 
     public Request(String token, String apiVersion, String apiURI) {
         this.apiURI = apiURI;
@@ -31,7 +32,7 @@ public class Request {
     // logging for query
     private String getQuery() {
         StringBuilder query = new StringBuilder(apiURI).
-                append(methodName).append("?")
+                append(methodName)
                 .append(queryParams)
                 .append("&access_token=")
                 .append(token)
@@ -48,9 +49,15 @@ public class Request {
      */
     public Request addParameter(String key, Object value) {
         if (queryParams == null){
-            queryParams = new StringBuilder();
+            queryParams = new StringBuilder("?");
         }
-        queryParams.append("&").append(key).append("=").append(value);
+        if (firstParameter){
+            queryParams.append(key).append("=").append(value);
+            firstParameter = false;
+        }
+        else {
+            queryParams.append("&").append(key).append("=").append(value);
+        }
         return this;
     }
 
@@ -58,7 +65,7 @@ public class Request {
     public String makeRequest() throws RequestException {
         try {
             String request = getQuery();
-            log.info("Request was {}", request);
+            log.debug("Request was {}", request);
             return IOUtils.toString(new URL(request));
         } catch (Exception e) {
             throw new RequestException(e);

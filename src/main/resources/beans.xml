@@ -12,14 +12,19 @@
     </util:properties>
 
     <context:annotation-config />
-    <bean id="gson" class="com.google.gson.Gson" scope="singleton"/>
 
+    <bean id="gson" class="com.google.gson.Gson" scope="singleton"/>
     <bean id="photoRequest" class="org.wtm.request.PhotoRequest" />
+    <bean id="likeRequest" class="org.wtm.request.LikeRequest"/>
+    <bean id="friendsRequest" class="org.wtm.request.FriendsRequest" />
+    <bean id="userRequest" class="org.wtm.request.UserRequest"/>
 
     <bean id="request" class="org.wtm.request.Request" scope="prototype">
-        <constructor-arg name="token" value="#{appProperties.token}" />
-        <constructor-arg name="apiVersion" value="#{appProperties.apiVersion}"/>
-        <constructor-arg name="apiURI" value="#{appProperties.apiURI}"/>
+        <constructor-arg name="token" value="#{appProperties['token']}" />
+        <constructor-arg name="apiVersion" value="#{appProperties['apiVersion']}"/>
+        <constructor-arg name="apiURI" value="#{appProperties['apiURI']}"/>
    </bean>
+
+
     
 </beans>
