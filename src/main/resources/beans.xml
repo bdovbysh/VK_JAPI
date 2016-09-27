@@ -5,6 +5,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- https://vk.com/dev/implicit_flow_user -->
+    <!--
+        Token URI
+        https://oauth.vk.com/authorize?client_id=?&redirect_uri=https://oauth.vk.com/blank.html&display=page&scope=339102&response_type=token&v=5.53
+     -->
     <util:properties id="appProperties">
         <prop key="token">//TODO insert your token</prop>
         <prop key="apiVersion">5.30</prop>
