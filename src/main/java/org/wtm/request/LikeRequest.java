@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.wtm.exceptions.RequestException;
+import org.wtm.response.ErrorResponse;
 import org.wtm.response.LikeResponse;
+import org.wtm.response.ErrorResponse.Error;
 
 /**
  * Created by dovbysh on 9/27/2016.
@@ -42,13 +44,18 @@ public class LikeRequest {
         return gson.fromJson(request.makeRequest(), LikeResponse.class);
     }
 
-    public LikeResponse deleteLike(Type likeType,String ownerId, String itemId) throws RequestException {
+    public Object deleteLike(Type likeType,String ownerId, String itemId) throws RequestException {
         Request request = (Request) context.getBean("request");
         request.setMethodName(LIKES_DELETE)
                 .addParameter("type",likeType)
                 .addParameter("owner_id",ownerId)
                 .addParameter("item_id",itemId);
-        return gson.fromJson(request.makeRequest(), LikeResponse.class);
+
+        LikeResponse likeResponse = gson.fromJson(request.makeRequest(), LikeResponse.class);
+        if ( likeResponse !=null && likeResponse.getLikes() == null){
+            return gson.fromJson(request.makeRequest(), ErrorResponse.class);
+        }
+        return likeResponse;
     }
 
 }

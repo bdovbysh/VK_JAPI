@@ -23,6 +23,8 @@ public class PhotoRequest {
     private final static String GET_ALBUMS = "photos.getAlbums";
     private final static String GET_ALBUMS_COUNT = "photos.getAlbumsCount";
     private final static String GET_PHOTOS = "photos.get";
+    private final static String GET_ALL = "photos.getAll";
+
 
     @Autowired
     private Gson gson;
@@ -79,5 +81,13 @@ public class PhotoRequest {
         request.setMethodName(GET_ALBUMS_COUNT).addParameter("user_id",ownerId);
         ResponseObject<Integer> responseObject = gson.fromJson(request.makeRequest(),responseType);
         return responseObject.getResponse();
+    }
+
+    public List<Photo> getAllPhotos(String ownerId) throws RequestException{
+        photoListType = new TypeToken<ResponseWithItems<Photo>>(){}.getType();
+        Request request = (Request) context.getBean("request");
+        request.setMethodName(GET_ALL).addParameter("owner_id",ownerId).addParameter("count",200);
+        ResponseWithItems<Photo> responseWithItems = gson.fromJson(request.makeRequest(),photoListType);
+        return responseWithItems.getResponse().getItems();
     }
 }
